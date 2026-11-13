@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-montserrat);
+  --color-ink: #101010;
+  --color-surface: #191919;
+  --color-card: #222222;
+  --color-line: #333333;
+  --color-copper: #c98a5e;
+  --color-copper-light: #e3ad85;
+  --color-copper-dark: #9c6741;
+  --color-cream: #f3eee9;
+  --color-muted: #a39b94;
+  --color-sale: #e5484d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
