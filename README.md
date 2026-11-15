@@ -14,11 +14,11 @@ npm run build   # compilación de producción
 
 | Qué | Dónde |
 | --- | --- |
-| Productos, precios, categorías | `src/lib/products.ts` |
+| Productos, precios, descripciones | `src/lib/products.json` |
 | Número de WhatsApp y textos de marca | `src/lib/site.ts` |
 | Preguntas frecuentes | `src/components/Faq.tsx` |
 | Colores | `src/app/globals.css` |
 | Fotos de producto | `public/productos/` + campo `image` del producto |
 
 El carrito se guarda en el navegador y el pedido se envía por WhatsApp.
-El catálogo incluido es de ejemplo.
+El catálogo (138 productos) está en `src/lib/products.json`.

@@ -1,22 +1,43 @@
 import { site } from "@/lib/site";
 
-// Textos de ejemplo: ajusta ciudades, medios de pago y tiempos reales.
+// Preguntas habituales en tiendas de suplementos. Ajusta las respuestas a tus
+// políticas reales (tiempos, medios de pago, cambios).
 const faqs = [
   {
     q: "¿Hacen envíos a toda Colombia?",
-    a: "Sí. Despachamos a todo el país con transportadora. El tiempo de entrega depende de tu ciudad y te lo confirmamos al hacer el pedido.",
-  },
-  {
-    q: "¿Qué medios de pago puedo usar?",
-    a: "Al finalizar tu pedido por WhatsApp te compartimos los medios de pago disponibles.",
+    a: "Sí. Despachamos a todas las ciudades y municipios del país por transportadora. El costo y el tiempo de entrega dependen de tu ubicación; te los confirmamos por WhatsApp antes de que pagues.",
   },
   {
     q: "¿Cómo hago mi pedido?",
-    a: "Agrega los productos al carrito y pulsa «Finalizar pedido por WhatsApp». Un asesor confirma disponibilidad, envío y pago.",
+    a: "Agrega los productos al carrito y pulsa «Finalizar pedido por WhatsApp». Nos llega tu lista con el total y un asesor te confirma disponibilidad, sabores, envío y forma de pago.",
   },
   {
-    q: "¿Me asesoran para elegir el suplemento?",
-    a: `Claro. Escríbenos por WhatsApp y el equipo de ${site.name} te orienta según tu objetivo.`,
+    q: "¿Qué medios de pago aceptan?",
+    a: "Al confirmar tu pedido por WhatsApp te compartimos los medios de pago disponibles para tu ciudad.",
+  },
+  {
+    q: "¿Los productos son originales?",
+    a: "Trabajamos con marcas reconocidas, nacionales e importadas. Si quieres verificar un producto antes de comprar, pídenos por WhatsApp fotos reales del envase, el lote y la fecha de vencimiento.",
+  },
+  {
+    q: "¿Puedo elegir el sabor?",
+    a: "Sí. La mayoría de proteínas, creatinas saborizadas y pre-entrenos vienen en varios sabores. Dinos cuál prefieres al hacer el pedido y te confirmamos si está disponible.",
+  },
+  {
+    q: "¿Qué suplemento me conviene?",
+    a: `Depende de tu objetivo: proteína para completar tu requerimiento diario y recuperarte, creatina para fuerza y rendimiento, ganadores de peso para etapas de volumen y pre-entrenos para energía al entrenar. Escríbenos y el equipo de ${site.name} te orienta.`,
+  },
+  {
+    q: "¿Cómo debo tomar los suplementos?",
+    a: "Sigue siempre la porción y las indicaciones de la etiqueta de cada producto. Los suplementos complementan la alimentación, no la reemplazan.",
+  },
+  {
+    q: "¿Cualquier persona puede tomarlos?",
+    a: "Si estás en embarazo o lactancia, eres menor de edad, tienes una condición médica o tomas medicamentos, consulta a tu médico antes de usar cualquier suplemento, en especial pre-entrenos y quemadores con cafeína.",
+  },
+  {
+    q: "¿Qué pasa si mi pedido llega con algún problema?",
+    a: "Revisa tu pedido al recibirlo. Si llegó incompleto, en mal estado o no corresponde a lo que pediste, escríbenos por WhatsApp con fotos y lo solucionamos.",
   },
 ];
 

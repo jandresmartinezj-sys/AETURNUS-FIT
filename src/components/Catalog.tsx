@@ -6,6 +6,7 @@ import { ProductImage } from "./ProductImage";
 import { useCart } from "./CartProvider";
 import { CloseIcon, FilterIcon, SearchIcon } from "./icons";
 import {
+  brands,
   categories,
   discountPct,
   finalPrice,
@@ -23,13 +24,17 @@ const sorts: { id: Sort; label: string }[] = [
   { id: "expensive", label: "Mayor precio" },
 ];
 
+const PAGE = 24;
+
 const normalize = (s: string) =>
   s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 export function Catalog() {
   const { add } = useCart();
   const [category, setCategory] = useState<CategoryId | null>(null);
+  const [brand, setBrand] = useState<string | null>(null);
   const [range, setRange] = useState<string | null>(null);
+  const [limit, setLimit] = useState(PAGE);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<Sort>("default");
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -40,21 +45,29 @@ export function Catalog() {
     const list = products.filter(
       (p) =>
         (!category || p.category === category) &&
+        (!brand || p.brand === brand) &&
         (!r || (finalPrice(p) >= r.min && finalPrice(p) < r.max)) &&
-        (!q || normalize(p.name).includes(q)),
+        (!q || normalize(`${p.brand} ${p.name}`).includes(q)),
     );
     if (sort === "cheap") list.sort((a, b) => finalPrice(a) - finalPrice(b));
     if (sort === "expensive") list.sort((a, b) => finalPrice(b) - finalPrice(a));
     if (sort === "promos") list.sort((a, b) => discountPct(b) - discountPct(a));
     return list;
-  }, [category, range, query, sort]);
+  }, [category, brand, range, query, sort]);
 
   const bestSellers = products.filter((p) => p.bestSeller).slice(0, 5);
-  const hasFilters = category || range || query;
+  const hasFilters = category || brand || range || query;
   const clear = () => {
     setCategory(null);
+    setBrand(null);
     setRange(null);
     setQuery("");
+    setLimit(PAGE);
+  };
+  // Cada cambio de filtro vuelve a la primera tanda de resultados.
+  const pick = <T,>(set: (v: T) => void, value: T) => {
+    set(value);
+    setLimit(PAGE);
   };
 
   const row = (active: boolean) =>
@@ -85,7 +98,7 @@ export function Catalog() {
                 <button
                   key={c.id}
                   aria-pressed={active}
-                  onClick={() => setCategory(active ? null : c.id)}
+                  onClick={() => pick(setCategory, active ? null : c.id)}
                   className={row(active)}
                 >
                   {c.name}
@@ -93,6 +106,29 @@ export function Catalog() {
                 </button>
               );
             })}
+          </div>
+
+          <div className="rounded-2xl border border-line bg-surface p-3">
+            <h3 className="px-3 pb-2 pt-1 text-sm font-bold uppercase tracking-wide text-copper-light">
+              Marcas
+            </h3>
+            <div className="max-h-72 overflow-y-auto pr-1">
+              {brands.map((b) => {
+                const count = products.filter((p) => p.brand === b).length;
+                const active = brand === b;
+                return (
+                  <button
+                    key={b}
+                    aria-pressed={active}
+                    onClick={() => pick(setBrand, active ? null : b)}
+                    className={row(active)}
+                  >
+                    {b}
+                    <span className={badge(active)}>{count}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="rounded-2xl border border-line bg-surface p-3">
@@ -108,7 +144,7 @@ export function Catalog() {
                 <button
                   key={r.id}
                   aria-pressed={active}
-                  onClick={() => setRange(active ? null : r.id)}
+                  onClick={() => pick(setRange, active ? null : r.id)}
                   className={row(active)}
                 >
                   {r.label}
@@ -120,7 +156,7 @@ export function Catalog() {
 
           <div className="hidden rounded-2xl border border-line bg-surface p-3 lg:block">
             <h3 className="px-3 pb-2 pt-1 text-sm font-bold uppercase tracking-wide text-copper-light">
-              Mejores ventas
+              Destacados
             </h3>
             {bestSellers.map((p) => (
               <button
@@ -128,7 +164,7 @@ export function Catalog() {
                 onClick={() => add(p.id, true)}
                 className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left transition hover:bg-white/5"
               >
-                <span className="relative h-12 w-12 shrink-0 rounded-lg bg-card">
+                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-white">
                   <ProductImage product={p} />
                 </span>
                 <span>
@@ -153,7 +189,7 @@ export function Catalog() {
               <SearchIcon className="h-4 w-4 text-muted" />
               <input
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => pick(setQuery, e.target.value)}
                 placeholder="Buscar producto"
                 aria-label="Buscar producto"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
@@ -163,7 +199,7 @@ export function Catalog() {
               Ordenar
               <select
                 value={sort}
-                onChange={(e) => setSort(e.target.value as Sort)}
+                onChange={(e) => pick(setSort, e.target.value as Sort)}
                 className="rounded-lg border border-line bg-card px-3 py-2 text-sm font-medium normal-case text-cream outline-none"
               >
                 {sorts.map((s) => (
@@ -188,9 +224,17 @@ export function Catalog() {
 
           {visible.length ? (
             <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4">
-              {visible.map((p) => (
+              {visible.slice(0, limit).map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
+              {visible.length > limit && (
+                <button
+                  onClick={() => setLimit((n) => n + PAGE)}
+                  className="col-span-full mx-auto mt-4 rounded-xl border border-copper px-8 py-3 text-sm font-bold uppercase tracking-wide text-copper-light transition hover:bg-copper hover:text-ink"
+                >
+                  Ver más productos ({visible.length - limit})
+                </button>
+              )}
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-line p-12 text-center text-muted">

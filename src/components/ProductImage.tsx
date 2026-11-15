@@ -13,7 +13,7 @@ export function ProductImage({ product }: { product: Product }) {
         alt={product.name}
         fill
         sizes="(min-width: 1024px) 25vw, 50vw"
-        className="object-contain p-4"
+        className="object-contain p-3"
       />
     );
   }
@@ -39,11 +39,6 @@ export function ProductImage({ product }: { product: Product }) {
       <text x="100" y="131" textAnchor="middle" fontSize="9" fontWeight="800" letterSpacing="1.5" fill="#161616">
         AETURNUS
       </text>
-      {product.size && (
-        <text x="100" y="160" textAnchor="middle" fontSize="9" fontWeight="600" fill="#a39b94">
-          {product.size}
-        </text>
-      )}
     </svg>
   );
 }

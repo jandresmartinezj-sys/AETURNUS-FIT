@@ -29,7 +29,7 @@ export function CartDrawer() {
       `Hola ${site.name}, quiero hacer este pedido:`,
       ...lines.map(
         (l) =>
-          `• ${l.qty} x ${l.product.name}${l.product.size ? ` (${l.product.size})` : ""} — ${formatCOP(finalPrice(l.product) * l.qty)}`,
+          `• ${l.qty} x ${l.product.brand} ${l.product.name} — ${formatCOP(finalPrice(l.product) * l.qty)}`,
       ),
       `Total: ${formatCOP(total)}`,
     ].join("\n"),
@@ -81,12 +81,12 @@ export function CartDrawer() {
             <ul className="flex-1 divide-y divide-line overflow-y-auto px-4">
               {lines.map(({ product, qty }) => (
                 <li key={product.id} className="flex gap-3 py-4">
-                  <span className="relative h-16 w-16 shrink-0 rounded-lg bg-card">
+                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white">
                     <ProductImage product={product} />
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold uppercase leading-tight">{product.name}</p>
-                    {product.size && <p className="text-xs text-muted">{product.size}</p>}
+                    <p className="text-xs text-muted">{product.brand}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <div className="flex items-center rounded-lg border border-line">
                         <button

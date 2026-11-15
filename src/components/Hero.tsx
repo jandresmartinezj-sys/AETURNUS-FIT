@@ -23,7 +23,7 @@ export function Hero() {
           <span className="text-copper-light">{site.tagline.split(" ").slice(-2).join(" ")}</span>
         </h1>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-cream/80">
-          Proteínas, creatinas, pre-entrenos y todo lo que necesitas para entrenar mejor.
+          Proteínas, creatinas, pre-entrenos y vitaminas de las mejores marcas nacionales e importadas.
         </p>
         <Link
           href="/productos"
