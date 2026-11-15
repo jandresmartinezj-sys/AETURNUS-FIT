@@ -3,7 +3,7 @@ export const site = {
   name: "AETURNUS FIT",
   tagline: "Suplementos para una fuerza que perdura",
   // Número en formato internacional, sin "+" ni espacios (57 = Colombia).
-  whatsapp: "573000000000",
+  whatsapp: "573164135586",
   shippingNote: "Envíos a toda Colombia",
 };
 

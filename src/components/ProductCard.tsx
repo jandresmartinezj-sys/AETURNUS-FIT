@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useCart } from "./CartProvider";
 import { CartIcon } from "./icons";
 import { ProductImage } from "./ProductImage";
-import { categoryName, discountPct, finalPrice, type Product } from "@/lib/products";
+import { discountPct, finalPrice, type Product } from "@/lib/products";
 import { formatCOP } from "@/lib/site";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -12,7 +13,11 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-card transition hover:border-copper/60">
-      <div className="relative aspect-square bg-gradient-to-b from-[#2e2e2e] to-[#1b1b1b]">
+      <Link
+        href={`/productos/${product.id}`}
+        aria-label={product.name}
+        className="relative block aspect-square overflow-hidden bg-white"
+      >
         <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-1.5">
           {pct > 0 && (
             <span className="rounded-full bg-sale px-2.5 py-0.5 text-[11px] font-bold text-white">
@@ -25,18 +30,19 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
-        <div className="h-full w-full p-5 transition duration-300 group-hover:scale-105">
+        <div className="relative h-full w-full transition duration-300 group-hover:scale-105">
           <ProductImage product={product} />
         </div>
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
-          {categoryName(product.category)}
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-copper">
+          {product.brand}
         </p>
         <h3 className="mt-1 text-sm font-bold uppercase leading-snug">
-          {product.name}
-          {product.size && <span className="text-muted"> · {product.size}</span>}
+          <Link href={`/productos/${product.id}`} className="hover:text-copper-light">
+            {product.name}
+          </Link>
         </h3>
         <p className="mt-2 flex flex-wrap items-baseline gap-x-2 text-base font-extrabold">
           {product.salePrice && (
